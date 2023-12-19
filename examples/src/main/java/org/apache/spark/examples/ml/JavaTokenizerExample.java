@@ -17,27 +17,24 @@
 
 package org.apache.spark.examples.ml;
 
-import org.apache.spark.sql.SparkSession;
+// col("...") is preferable to df.col("...")
+import static org.apache.spark.sql.functions.*;
 
 // $example on$
 import java.util.Arrays;
 import java.util.List;
-
-import scala.collection.mutable.Seq;
 
 import org.apache.spark.ml.feature.RegexTokenizer;
 import org.apache.spark.ml.feature.Tokenizer;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.api.java.UDF0;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
-
-// col("...") is preferable to df.col("...")
-import static org.apache.spark.sql.functions.call_udf;
-import static org.apache.spark.sql.functions.col;
 // $example off$
 
 public class JavaTokenizerExample {
@@ -68,8 +65,13 @@ public class JavaTokenizerExample {
         .setOutputCol("words")
         .setPattern("\\W");  // alternatively .setPattern("\\w+").setGaps(false);
 
-    spark.udf().register(
-      "countTokens", (Seq<?> words) -> words.size(), DataTypes.IntegerType);
+    // TODO Function定義を変更する必要ありと思う
+    UDF0<?> aaa = () -> new Object();
+    spark.udf().register("coun", aaa, DataTypes.IntegerType);
+    
+//    spark.udf().register(
+//      "countTokens", null, DataTypes.IntegerType);
+//    "countTokens", (Seq<?> words) -> words.size(), DataTypes.IntegerType);
 
     Dataset<Row> tokenized = tokenizer.transform(sentenceDataFrame);
     tokenized.select("sentence", "words")
