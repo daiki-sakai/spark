@@ -17,7 +17,13 @@
 
 package org.apache.spark.examples.streaming;
 
-import com.google.common.io.Closeables;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.storage.StorageLevel;
@@ -27,15 +33,10 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.receiver.Receiver;
-import scala.Tuple2;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.regex.Pattern;
+import com.google.common.io.Closeables;
+
+import scala.Tuple2;
 
 /**
  * Custom Receiver that receives data over a socket. Received bytes is interpreted as
@@ -60,7 +61,7 @@ public class JavaCustomReceiver extends Receiver<String> {
       System.exit(1);
     }
 
-    StreamingExamples.setStreamingLogLevels();
+//    StreamingExamples.setStreamingLogLevels();
 
     // Create the context with a 1 second batch size
     SparkConf sparkConf = new SparkConf().setAppName("JavaCustomReceiver");

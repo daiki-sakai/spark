@@ -20,8 +20,6 @@ package org.apache.spark.examples.streaming;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import scala.Tuple2;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.streaming.Durations;
@@ -29,6 +27,8 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
+
+import scala.Tuple2;
 
 /**
  * Counts words in UTF8 encoded, '\n' delimited text received from the network every second.
@@ -50,7 +50,7 @@ public final class JavaNetworkWordCount {
       System.exit(1);
     }
 
-    StreamingExamples.setStreamingLogLevels();
+//    StreamingExamples.setStreamingLogLevels();
 
     // Create the context with a 1 second batch size
     SparkConf sparkConf = new SparkConf().setAppName("JavaNetworkWordCount");

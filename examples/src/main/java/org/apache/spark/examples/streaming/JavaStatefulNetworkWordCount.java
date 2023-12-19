@@ -21,17 +21,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import scala.Tuple2;
-
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.function.*;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.StorageLevels;
+import org.apache.spark.api.java.function.Function3;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.State;
 import org.apache.spark.streaming.StateSpec;
-import org.apache.spark.streaming.api.java.*;
+import org.apache.spark.streaming.api.java.JavaDStream;
+import org.apache.spark.streaming.api.java.JavaMapWithStateDStream;
+import org.apache.spark.streaming.api.java.JavaPairDStream;
+import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
+
+import scala.Tuple2;
 
 /**
  * Counts words cumulatively in UTF8 encoded, '\n' delimited text received from the network every
@@ -55,7 +59,7 @@ public class JavaStatefulNetworkWordCount {
       System.exit(1);
     }
 
-    StreamingExamples.setStreamingLogLevels();
+//    StreamingExamples.setStreamingLogLevels();
 
     // Create the context with a 1 second batch size
     SparkConf sparkConf = new SparkConf().setAppName("JavaStatefulNetworkWordCount");
